@@ -7,7 +7,7 @@ This repository contains sample scripts for deploying the TRE in various environ
 TRE is available as a docker container. To run TRE locally, execute the following command:
 
 ```shell
-docker run -e TESMON_AGENT_ID=valid_agent_id  -e TESMON_API_TOKEN="valid_api_token" ghcr.io/jchakilam81/tesmon-tre:latest
+docker run -e TESMON_AGENT_ID=valid_agent_id  -e TESMON_API_TOKEN="valid_api_token" ghcr.io/tesmon-sys/tesmon-tre:latest
 ```
 
 Here,
