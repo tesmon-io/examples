@@ -7,11 +7,11 @@ This repository contains sample scripts for deploying the TRE in various environ
 TRE is available as a docker container. To run TRE locally, execute the following command:
 
 ```shell
-docker run -e TESMON_AGENT_ID=valid_agent_id  -e TESMON_API_TOKEN="valid_api_token" ghcr.io/tesmon-sys/tesmon-tre:latest
+docker run -e TESMON_TRE_ID=valid_tre_id  -e TESMON_API_TOKEN="valid_api_token" ghcr.io/tesmon-sys/tesmon-tre:latest
 ```
 
 Here,
-valid_agent_id = Agent ID found in environments page - https://app.tesmon.io/environments
+valid_tre_id = TRE ID found in environments page - https://app.tesmon.io/environments
 
 valid_api_token = Token found in your profile / settings page - https://app.tesmon.io/settings/tokens
 
@@ -23,7 +23,7 @@ Deploying directly inside your AWS vpc & security group provides TRE access to a
 
 Replace the following data in the terraform directory:
 **env_vars_agent_core.json**
-Replace with valid agent id and api token as discussed for local deployment
+Replace with valid TRE id and api token as discussed for local deployment
 
 **terraform.tfvars file:**
 Fix the following variables to have the correct value so they have access to the resources that are tested:
