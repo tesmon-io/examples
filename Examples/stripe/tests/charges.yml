@@ -1,0 +1,72 @@
+## POST /v1/charges
+
+
+taskActions:
+  - id: postCharge
+    type: httpClient
+    value:
+      method: POST
+      fullUrl: "${{variables.stripeUrl}}/v1/charges"
+      headers:
+        'Authorization': 'Basic c2tfdGVzdF80ZUMzOUhxTHlqV0Rhcmp0VDF6ZHA3ZGM='
+        'Content-Type': 'application/x-www-form-urlencoded'
+      body: >-
+        amount=2000&currency=usd&source=tok_visa&description="My First Test Charge (created for API docs)"
+
+  - id: getCharge
+    type: httpClient
+    value:
+      method: POST
+      fullUrl: "${{variables.stripeUrl}}/v1/charges/${{context.chargeId}}"
+      headers:
+        'Authorization': 'Basic c2tfdGVzdF80ZUMzOUhxTHlqV0Rhcmp0VDF6ZHA3ZGM='
+
+  - id: updateCharge
+    type: httpClient
+    value:
+      method: POST
+      fullUrl: "${{variables.stripeUrl}}/v1/charges/${{context.chargeId}}"
+      headers:
+        'Authorization': 'Basic c2tfdGVzdF80ZUMzOUhxTHlqV0Rhcmp0VDF6ZHA3ZGM='
+        'Content-Type': 'application/x-www-form-urlencoded'
+      body: >-
+        metadata[order_id]=6735
+
+scripts:
+  - id: validateHttpOk
+    value: |-
+      def validateHttpOk(context):
+        output = context["last_output"]
+        assert output["statusCode"] == 200
+  - id: saveChargeId
+    value: |-
+      def saveChargeId(context):
+        output = context["last_output"]
+        context["chargeId"] = output["body"]["id"]
+  - id: checkMetadata
+    value: |-
+      def validateMetadata(context):
+        output = context["last_output"]
+        assert output["statusCode"] == 200
+        assert output["body"]["metadata"]["order_id"] == "6735"
+
+tests:
+  - id: stripeChargesLifecycle
+    name: Test the full lifecycle of stripe charges API
+    tasks:
+      - id: postCharge
+        type: httpClient
+        action: taskActions.postCharge
+        validate: scripts.validateHttpOk
+        afterTask: scripts.saveChargeId
+
+      - id: getCharge
+        type: httpClient
+        action: taskActions.getCharge
+        validate: scripts.validateHttpOk
+
+
+      - id: updateCharge
+        type: httpClient
+        action: taskActions.updateCharge
+        validate: scripts.checkMetadata
