@@ -1,0 +1,41 @@
+taskActions:
+  - id: googleTest
+    type: httpClient
+    value:
+      method: GET
+      fullUrl: https://www.google.com
+  - id: apptray
+    type: httpClient
+    value:
+      method: GET
+      path: /v1/configs/apptray
+      baseUrl: https://customers.api.halodoc.com
+      headers:
+        Authorization: 'Bearer 3ecdf3dc-0d42-4687-8a4c-da6567f686e7'
+        User-Agent: 'HD customer app/13.120/android 9'
+        Accept-Language: 'in'
+        Connection: 'Keep-Alive'
+        X-APP-TOKEN: 123520eb-f3c6-410c-ae2c-d6d07ce663a8'
+
+scripts:
+  - id: validateHttpOk
+    value: |-
+      def validateHttpOk(context):
+        output = context["last_output"]
+        assert output["statusCode"] == 200
+
+tests:
+  - id: googleTest
+    name: test google homepage
+    tasks:
+      - id: getgoogle
+        type: httpClient
+        action: taskActions.googleTest
+
+  - id: halodocTest
+    name: get halodoc apptray
+    tasks:
+      - id: gethalodoc
+        type: httpClient
+        action: taskActions.apptray
+        validate: scripts.validateHttpOk
