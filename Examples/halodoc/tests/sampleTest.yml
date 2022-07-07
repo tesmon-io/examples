@@ -15,7 +15,7 @@ taskActions:
         User-Agent: 'HD customer app/13.120/android 9'
         Accept-Language: 'in'
         Connection: 'Keep-Alive'
-        X-APP-TOKEN: 123520eb-f3c6-410c-ae2c-d6d07ce663a8'
+        X-APP-TOKEN: '123520eb-f3c6-410c-ae2c-d6d07ce663a8'
 
 scripts:
   - id: validateHttpOk
