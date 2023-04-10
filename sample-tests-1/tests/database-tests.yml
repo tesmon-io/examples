@@ -1,0 +1,73 @@
+# Define variables for PostgreSQL connection
+variables:
+  postgresUsername: postgres
+  postgresPassword: magical_password
+  postgresConnectionString: jdbc:postgresql://localhost:5432
+
+# Define the PostgreSQL resource using DB::JDBC type
+resources:
+  postgresDb:
+    type: DB::JDBC
+    props:
+      username: variables.postgresUsername
+      password: variables.postgresPassword
+      connectionString: "${{variables.postgresConnectionString}}/db"
+
+# Define scripts to be used in tasks
+scripts:
+  # Validate that the query returns exactly one row
+  validateEqOneRowPsql: |-
+    assert len(context["last_output"]["rows"]) == 1
+  # Print message in task
+  printInTask: |-
+    print("Printing in task")
+  # Validate that the query returns zero rows
+  validateZeroRows: |-
+    assert len(context["last_output"]["rows"]) == 0
+
+# Define actions for inserting, querying and deleting records in PostgreSQL
+actions:
+  # Insert a new user in the PostgreSQL database
+  insertUser:
+    type: DB::JDBC
+    props:
+      query: "INSERT into users (username, password) values ('user2', 'abcd');"
+  # Query for the inserted user in the PostgreSQL database
+  queryUser:
+    type: DB::JDBC
+    props:
+      query: "select username from users where username='user2';"
+  # Delete the inserted user from the PostgreSQL database
+  deleteUser:
+    type: DB::JDBC
+    props:
+      query: "delete from users where username='user2';"
+
+# Define the test for inserting, querying and deleting records in PostgreSQL
+tests:
+  postgresTest:
+    tasks:
+      # Insert a new user in the PostgreSQL database
+      - id: task1
+        resource: resources.postgresDb
+        action: actions.insertUser
+        afterTask: scripts.printInTask
+      # Query for the inserted user in the PostgreSQL database and validate that it returns exactly one row
+      - id: task2
+        resource: resources.postgresDb
+        action: actions.queryUser
+        validate: scripts.validateEqOneRowPsql
+      # Delete the inserted user from the PostgreSQL database and validate that the query returns zero rows
+      - id: task3
+        resource: resources.postgresDb
+        action: actions.deleteUser
+
+# Define a cleanup task to delete all records after the tests have finished
+afterAll:
+  deleteAllRecords:
+    tasks:
+      # Delete all records from the PostgreSQL database and validate that the query returns zero rows
+      - id: deleteRecords
+        resource: resources.postgresDb
+        action: actions.deleteUser
+        validate: scripts.validateZeroRows

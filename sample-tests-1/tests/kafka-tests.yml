@@ -1,0 +1,74 @@
+# Define the variables used in the pipeline
+variables:
+  kafkaBootstrapServers: kafka.example.com:9092
+  singlePartitionTopic: topic-20
+  multiPartitionTopic: topic-25
+
+# Define the resources used in the pipeline
+resources:
+  kafka:
+    type: KAFKA::PRODUCER
+    props:
+      bootstrapServers: ${{variables.kafkaBootstrapServers}}
+
+# Define the actions to perform
+actions:
+  insertRecordMultiPart:
+    type: KAFKA::PRODUCER
+    props:
+      topic: ${{variables.multiPartitionTopic}}
+      value: value-1
+  insertRecordWithPartitionKey1MultiPart:
+    type: KAFKA::PRODUCER
+    props:
+      key: 1
+      topic: ${{variables.multiPartitionTopic}}
+      value: value-2
+  insertRecordWithPartitionKey2MultiPart:
+    type: KAFKA::PRODUCER
+    props:
+      key: 2
+      topic: ${{variables.multiPartitionTopic}}
+      value: value-2
+  insertRecordToPartitionMultiPart:
+    type: KAFKA::PRODUCER
+    props:
+      topic: ${{variables.multiPartitionTopic}}
+      value: value-2
+      partition: 2
+
+# Define the scripts to run for validation
+scripts:
+  validateInsertRecordMultiPart: |-
+    assert context["last_output"]["topic"] == "${{variables.multiPartitionTopic}}"
+    assert context["last_output"]["offset"] >= 0
+  validateInsertWithPartitionKey1MultiPart: |-
+    assert context["last_output"]["topic"] == "${{variables.multiPartitionTopic}}"
+    assert context["last_output"]["partition"] == 4
+  validateInsertWithPartitionKey2MultiPart: |-
+    assert context["last_output"]["topic"] == "${{variables.multiPartitionTopic}}"
+    assert context["last_output"]["partition"] == 3
+  validateExactPartitionMultiPart: |-
+    assert context["last_output"]["topic"] == "${{variables.multiPartitionTopic}}"
+    assert context["last_output"]["partition"] == 2
+
+# Define the tests to run
+tests:
+  kafkaTestMultiPart:
+    tasks:
+      - id: task1
+        resource: resources.kafka
+        action: actions.insertRecordMultiPart
+        validate: scripts.validateInsertRecordMultiPart
+      - id: task2
+        resource: resources.kafka
+        action: actions.insertRecordWithPartitionKey1MultiPart
+        validate: scripts.validateInsertWithPartitionKey1MultiPart
+      - id: task3
+        resource: resources.kafka
+        action: actions.insertRecordWithPartitionKey2MultiPart
+        validate: scripts.validateInsertWithPartitionKey2MultiPart
+      - id: task4
+        resource: resources.kafka
+        action: actions.insertRecordToPartitionMultiPart
+        validate: scripts.validateExactPartitionMultiPart

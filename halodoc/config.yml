@@ -1,3 +1,0 @@
-workspace: 'test1'
-files:
-  - 'tests/*.yml'

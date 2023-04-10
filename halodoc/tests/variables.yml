@@ -1,5 +1,0 @@
-variables:
-  - id: apiToken
-    value: ********
-  - id: xAppToken
-    value: ********

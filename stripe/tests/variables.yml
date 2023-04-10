@@ -1,5 +1,0 @@
-variables:
-  - id: stripeUrl
-    value: https://api.stripe.com
-  - id: apiToken
-    value: ***********
