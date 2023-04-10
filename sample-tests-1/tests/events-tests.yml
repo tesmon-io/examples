@@ -1,0 +1,19 @@
+# Define a script to validate the test event
+scripts:
+  validateEvent: assert context["last_output"]["event"]["foo"] == "bar"
+
+# Define an event that we expect to receive
+events:
+  expectedEvent:
+    type: EVENT
+    props:
+      eventId: GENERIC_EVENT_ID
+      within: 3000
+
+# Define a test that expects to receive an event and validates it
+tests:
+  eventTest:
+    tasks:
+      - id: task1
+        expect: events.expectedEvent
+        validate: scripts.validateEvent

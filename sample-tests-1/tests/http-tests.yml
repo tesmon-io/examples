@@ -1,0 +1,59 @@
+# Set base URL for requests
+variables:
+  reqResBaseUrl: "https://reqres.in"
+
+# Define actions to be performed
+actions:
+  # Define a GET request action
+  getRequest:
+    type: HTTP::CLIENT
+    props:
+      method: GET
+      baseUrl: ${{variables.reqResBaseUrl}} # Use variable for base URL
+      path: api/users/2 # Specify path for request
+      headers:
+        "Content-Type": "application/json" # Specify headers for request
+  # Define a POST request action
+  postRequest:
+    type: HTTP::CLIENT
+    props:
+      method: POST
+      baseUrl: ${{variables.reqResBaseUrl}} # Use variable for base URL
+      path: api/users # Specify path for request
+      headers:
+        "Content-Type": "application/json" # Specify headers for request
+      body: | # Specify body for request
+        {
+          "name": "morpheus",
+          "job": "leader"
+        }
+
+# Define scripts to be executed
+scripts:
+  # Validate that the GET request returns expected results
+  validateGetReq: |-
+    output = context["last_output"]
+    id = output["body"]["data"]["id"]
+    assert id == 2
+  # Validate that the POST request returns expected results
+  validatePostReq: |-
+    output = context["last_output"]
+    name = output["body"]["name"]
+    assert name == "morpheus"
+  # Validate that the GET request returns HTTP 200 status code
+  validateGetReqHttp200: assert(context["last_output"]["statusCode"] == 200)
+
+# Define tests to be run
+tests:
+  # Define a test to perform a GET request, then a POST request, and then another GET request
+  getRequestTest:
+    tasks:
+      - id: task1
+        action: actions.getRequest
+        validate: scripts.validateGetReq # Validate GET request results
+      - id: task2
+        action: actions.postRequest
+        validate: scripts.validatePostReq # Validate POST request results
+      - id: task3
+        action: actions.getRequest
+        validate: scripts.validateGetReqHttp200 # Validate GET request HTTP 200 status code
