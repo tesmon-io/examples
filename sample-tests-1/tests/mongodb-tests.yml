@@ -1,0 +1,62 @@
+# Define the actions section
+actions:
+  # Define the insert action
+  insert:
+    type: DB::MONGO
+    props:
+      queryType: MONGO::INSERT
+      document: { "name": "John" }
+      collection: users
+      # Perform an insert operation on the "users" collection, inserting a document with the name "John"
+
+  # Define the save action
+  save:
+    type: DB::MONGO
+    props:
+      query: { "_id": "63c1fe90f1582d72983caf6f", "name": "John Jr" }
+      queryType: MONGO::SAVE
+      collection: users
+      # Perform a save operation on the "users" collection, updating the document with the specified _id and name "John Jr"
+
+  # Define the find action
+  find:
+    type: DB::MONGO
+    props:
+      query: { "name": "John Jr" }
+      queryType: MONGO::FIND
+      collection: users
+      # Perform a find operation on the "users" collection, searching for documents with the name "John Jr"
+
+  # Define the remove action
+  remove:
+    type: DB::MONGO
+    props:
+      query: { "name": "John" }
+      queryType: MONGO::REMOVE_ALL
+      collection: users
+      # Perform a remove operation on the "users" collection, removing all documents with the name "John"
+
+# Define the tests section
+tests:
+  # Define the mongodbTest
+  mongodbTest:
+    tasks:
+      - id: task1
+        resource: resources.mongodb
+        action: actions.insert
+        # Perform the insert action using the MongoDB resource
+
+      - id: task2
+        resource: resources.mongodb
+        action: actions.save
+        # Perform the save action using the MongoDB resource
+
+      - id: task3
+        resource: resources.mongodb
+        action: actions.find
+        # Perform the find action using the MongoDB resource
+
+      - id: task4
+        resource: resources.mongodb
+        action: actions.remove
+        # Perform the remove action using the MongoDB resource

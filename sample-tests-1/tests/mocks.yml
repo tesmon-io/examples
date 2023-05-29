@@ -1,0 +1,41 @@
+# Define the mocks section
+mocks:
+  # Define the response mock
+  responseMock:
+    type: HTTP::MOCK
+    port: 3008
+    endpoints:
+      - match:
+          method: GET
+          path: /api/users
+        response:
+          statusCode: 200
+          headers:
+            "Content-Type": "application/json"
+          body: |
+            {
+              "message": "Mocked response for GET /api/users"
+            }
+
+  # Define the forward mock
+  forwardMock:
+    type: HTTP::MOCK
+    port: 3009
+    endpoints:
+      - match:
+          method: POST
+          path: /api/products
+        forward:
+          host: http://actual-service.com
+          port: 8080
+
+  # Define the error mock
+  errorMock:
+    type: HTTP::MOCK
+    port: 3010
+    endpoints:
+      - match:
+          path: /api/orders
+        error:
+          dropConnection: true
+          responseBytes: "eQqmdjEEoaXnCvcK6lOAIZeU+Pn+womxmg=="
