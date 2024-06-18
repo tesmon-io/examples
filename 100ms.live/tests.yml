@@ -1,0 +1,70 @@
+actions:
+  create-room:
+    type: HTTP::CLIENT
+    props:
+      method: POST
+      baseUrl: https://api.100ms.live
+      path: /v2/rooms
+      headers:
+        Authorization: Bearer ${{variables.managementToken}}
+        Content-Type: application/json
+      body: |-
+        {
+            "name": "new-room-1662723668",
+            "description": "This is a sample description for the room",
+            "template_id": "${{variables.templateId}}"
+        }
+  retrieve-room:
+    type: HTTP::CLIENT
+    props:
+      method: GET
+      baseUrl: https://api.100ms.live
+      path: /v2/rooms/${{context.last_output.body.id}}
+      headers:
+        Authorization: Bearer ${{variables.managementToken}}
+  get-rooms:
+    type: HTTP::CLIENT
+    props:
+      method: GET
+      baseUrl: https://api.100ms.live
+      path: /v2/rooms
+      headers:
+        Authorization: Bearer ${{variables.managementToken}}
+  disable-room:
+    type: HTTP::CLIENT
+    props:
+      method: POST
+      baseUrl: https://api.100ms.live
+      path: /v2/rooms/${{context.last_output.body.id}}
+      headers:
+        Authorization: Bearer ${{variables.managementToken}}
+        Content-Type: application/json
+      body: |-
+        {
+            "enabled": false
+        }
+variables:
+  managementToken: >-
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTg3MTcwNjUsImV4cCI6MTcxOTMyMTg2NSwianRpIjoiNDZjMzY5ZmEtZDIzOS00NzE2LWJhYjItMDMwMDg2NzY1OWJkIiwidHlwZSI6Im1hbmFnZW1lbnQiLCJ2ZXJzaW9uIjoyLCJuYmYiOjE3MTg3MTcwNjUsImFjY2Vzc19rZXkiOiI2MzkyMzQ3NWE1MDJjZjdmZDk1NDk1MjIifQ.EICF72noEdDbu0Gbem-E0kJMBwyA4pfgNazqZHB9a4E
+  templateId: 639234e674131f3531bb164d
+tests:
+  tests-1718717305:
+    testbot: true
+    summary: >-
+      This test performs a GET request to retrieve a list of rooms from the API.
+      The outcome shows a successful response with a status code of 200.
+
+
+      Additionally, a POST request is made to create a new room with specific
+      details. The test result indicates a successful response with a status
+      code of 200.
+
+
+      Lastly, another GET request is executed to fetch details of a specific
+      room using its ID. The test outcome displays a successful response with a
+      status code of 200.
+    tasks:
+      - action: actions.get-rooms
+      - action: actions.create-room
+      - action: actions.retrieve-room
+      - action: actions.disable-room
