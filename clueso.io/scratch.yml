@@ -1,0 +1,51 @@
+actions:
+  http-client-171872421010:
+    type: HTTP::CLIENT
+    props:
+      baseUrl: https://api.clueso.io
+      path: /guide_queries/getGuidePreview
+      method: POST
+      body: '{"id":"c17b7b06-f73f-4583-939c-0c55d4ee6472"}'
+      headers:
+        accept: application/json, text/plain, */*
+        accept-encoding: gzip, deflate, br, zstd
+        accept-language: en-US,en;q=0.9
+        authorization: Bearer ${{variables.authToken}}
+        baggage: >-
+          sentry-environment=production,sentry-public_key=b57df54d59199bbe3e0c991ac3ab56df,sentry-trace_id=67b2b1ee35f147c6bfa89b603a4a592b
+        content-length: '45'
+        content-type: application/json
+        cookie: >-
+          _ga=GA1.1.970959457.1718698719; _clck=1qvp94t%7C2%7Cfmq%7C0%7C1630;
+          ko_id=0e7950f3-3d4a-41ad-b0eb-f3c18639553c;
+          _fuid=MGM4ZDI2YzctNTZkNC00ZWQyLWE4NWMtOTI3Yjc3NTg4YTU5;
+          intercom-id-n6lbetdm=be1b5c85-fc6b-41e6-9eee-8a5be87ccd72;
+          intercom-session-n6lbetdm=;
+          intercom-device-id-n6lbetdm=ba285704-b67a-4383-83c0-5a7ece34a970;
+          _clsk=1tcs0yq%7C1718719024028%7C1%7C1%7Ct.clarity.ms%2Fcollect;
+          ko_sid={%22id%22:%221718719021779%22%2C%22lastTouched%22:1718719028731};
+          _ga_VM3N5NBNZF=GS1.1.1718719021.2.0.1718719029.0.0.0;
+          ph_phc_K9xtjpstJIE86BCqAq7SLsbsWK31H7YggUQZIf8xf9x_posthog=%7B%22distinct_id%22%3A%22018f8280-353b-78d1-9357-1e5e9a3674b0%22%2C%22%24sesid%22%3A%5B1718719410212%2C%2201902ba3-03db-7b7a-9669-20a1b271e112%22%2C1718719022043%5D%2C%22%24epp%22%3Atrue%7D
+        origin: https://web.clueso.io
+        priority: u=1, i
+        referer: https://web.clueso.io/
+        sec-ch-ua: '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"'
+        sec-ch-ua-mobile: '?0'
+        sec-ch-ua-platform: '"macOS"'
+        sec-fetch-dest: empty
+        sec-fetch-mode: cors
+        sec-fetch-site: same-site
+        sentry-trace: 67b2b1ee35f147c6bfa89b603a4a592b-b98e03c34a0d411f
+        user-agent: >-
+          Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+          (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
+tests:
+  tests-1718724210:
+    testbot: true
+    summary: >-
+      This is a new test. The summary is unavailable because the data is too
+      long.
+    tasks:
+      - action: actions.http-client-171872421010
+variables:
+  authToken: XXXXXXX
