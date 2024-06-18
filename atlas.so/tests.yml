@@ -1,0 +1,114 @@
+tests:
+  test-create-and-search:
+    testbot: true
+    summary: >-
+      This test performs a POST request to create a new customer with the
+      provided details. The outcome is a successful creation of a customer with
+      the specified information. Another POST request is made to search for
+      customers based on certain criteria, resulting in the retrieval of
+      customer data matching the search parameters.
+    tasks:
+      - action: actions.atlas-customers
+      - action: actions.atlas-search
+actions:
+  atlas-customers:
+    type: HTTP::CLIENT
+    props:
+      baseUrl: https://app.atlas.so
+      path: /api/customers
+      method: POST
+      body: >-
+        {"firstName":"Tesmon
+        ","lastName":"Support","email":"hvnagaraj@gmail.com","customFields":{}}
+      headers:
+        accept: application/json, text/plain, */*
+        accept-encoding: gzip, deflate, br, zstd
+        accept-language: en-US,en;q=0.9
+        authorization: Bearer ${{variables.authToken}}
+        content-length: '92'
+        content-type: application/json
+        cookie: >-
+          _gcl_au=1.1.1808781248.1718735568; _ga=GA1.1.398457100.1718735569;
+          _fbp=fb.1.1718735568898.348367141286422319;
+          _ga_ZHP0RNKZQN=GS1.1.1718735568.1.0.1718735578.0.0.0;
+          _ga_KCDSN8H574=GS1.1.1718735568.1.0.1718735578.0.0.0;
+          _ga_FCVDNYZ1DV=GS1.1.1718735568.1.0.1718735578.0.0.0;
+          _ga_BY6H6Y7RWE=GS1.1.1718735568.1.0.1718735578.0.0.0;
+          _co%2Fverifier%2Fhttps%253A%252F%252Fauth.atlas.so%2F5Fxo4HDUNsAW_compat=%229z0iL1N4_RnOLlXVC9KVhdN_1tp7dkyO%22;
+          co%2Fverifier%2Fhttps%253A%252F%252Fauth.atlas.so%2F5Fxo4HDUNsAW=%229z0iL1N4_RnOLlXVC9KVhdN_1tp7dkyO%22;
+          _auth0.ssodata_compat=%22{%5C%22lastUsedConnection%5C%22:%5C%22Username-Password-Authentication%5C%22%2C%5C%22lastUsedSub%5C%22:%5C%22auth0|6671d2f48f29ddca03ec6646%5C%22}%22;
+          auth0.ssodata=%22{%5C%22lastUsedConnection%5C%22:%5C%22Username-Password-Authentication%5C%22%2C%5C%22lastUsedSub%5C%22:%5C%22auth0|6671d2f48f29ddca03ec6646%5C%22}%22;
+          atlasIdentitya95uw0hfsr=cfcdaff0-ada0-4fa4-8e61-7e1437391c35;
+          atlasUserHasha95uw0hfsr=ba8235943eb3cf526dee71acdc971c98772c3025aa70b1f8ce6f77b3162ccb01;
+          _ga_WCFQ65BCM4=GS1.1.1718735578.1.1.1718735937.0.0.0;
+          ph_phc_uKGENgKRF0dLaDNFCRe3QitdzHT5leW9jERK8J7eqIN_posthog=%7B%22distinct_id%22%3A%227ad1e47b-9245-4409-9f72-6a5527a0e677%22%2C%22%24sesid%22%3A%5B1718736129894%2C%2201902c9f-a6ff-7e97-b9ba-cbd6822b6e16%22%2C1718735578879%5D%2C%22%24epp%22%3Atrue%7D
+        newrelic: >-
+          eyJ2IjpbMCwxXSwiZCI6eyJ0eSI6IkJyb3dzZXIiLCJhYyI6IjM2OTExMzAiLCJhcCI6IjU5NDM4MTE4NSIsImlkIjoiMjQyNzliNjY3ZWFjZTVjMyIsInRyIjoiNTJiZDc4MTM2OGY2ZWY4YzI2N2EwZmVjZGU3MDZhMDEiLCJ0aSI6MTcxODczNjEyOTkxMH19
+        origin: https://app.atlas.so
+        priority: u=1, i
+        referer: https://app.atlas.so/customers
+        sec-ch-ua: '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"'
+        sec-ch-ua-mobile: '?0'
+        sec-ch-ua-platform: '"macOS"'
+        sec-fetch-dest: empty
+        sec-fetch-mode: cors
+        sec-fetch-site: same-origin
+        traceparent: 00-52bd781368f6ef8c267a0fecde706a01-24279b667eace5c3-01
+        tracestate: 3691130@nr=0-1-3691130-594381185-24279b667eace5c3----1718736129910
+        user-agent: >-
+          Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+          (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
+        x-atlas-session-id: 9c84d0d0-fd07-4cc7-a74c-ea4de382bf1a
+        x-newrelic-id: VwAOUFdQCBAFU1RUAAMPU1U=
+        x-requested-with: XMLHttpRequest
+  atlas-search:
+    type: HTTP::CLIENT
+    props:
+      baseUrl: https://app.atlas.so
+      path: /api/search
+      method: POST
+      body: >-
+        {"entities":["customer"],"mode":"all","filters":[{"field":"customer.createdAt","operator":"after","value":"2000-01-01"}],"limit":8,"cursor":0}
+      headers:
+        accept: application/json, text/plain, */*
+        accept-encoding: gzip, deflate, br, zstd
+        accept-language: en-US,en;q=0.9
+        authorization: Bearer ${{variables.authToken}}
+        content-length: '142'
+        content-type: application/json
+        cookie: >-
+          _gcl_au=1.1.1808781248.1718735568; _ga=GA1.1.398457100.1718735569;
+          _fbp=fb.1.1718735568898.348367141286422319;
+          _ga_ZHP0RNKZQN=GS1.1.1718735568.1.0.1718735578.0.0.0;
+          _ga_KCDSN8H574=GS1.1.1718735568.1.0.1718735578.0.0.0;
+          _ga_FCVDNYZ1DV=GS1.1.1718735568.1.0.1718735578.0.0.0;
+          _ga_BY6H6Y7RWE=GS1.1.1718735568.1.0.1718735578.0.0.0;
+          _co%2Fverifier%2Fhttps%253A%252F%252Fauth.atlas.so%2F5Fxo4HDUNsAW_compat=%229z0iL1N4_RnOLlXVC9KVhdN_1tp7dkyO%22;
+          co%2Fverifier%2Fhttps%253A%252F%252Fauth.atlas.so%2F5Fxo4HDUNsAW=%229z0iL1N4_RnOLlXVC9KVhdN_1tp7dkyO%22;
+          _auth0.ssodata_compat=%22{%5C%22lastUsedConnection%5C%22:%5C%22Username-Password-Authentication%5C%22%2C%5C%22lastUsedSub%5C%22:%5C%22auth0|6671d2f48f29ddca03ec6646%5C%22}%22;
+          auth0.ssodata=%22{%5C%22lastUsedConnection%5C%22:%5C%22Username-Password-Authentication%5C%22%2C%5C%22lastUsedSub%5C%22:%5C%22auth0|6671d2f48f29ddca03ec6646%5C%22}%22;
+          atlasIdentitya95uw0hfsr=cfcdaff0-ada0-4fa4-8e61-7e1437391c35;
+          atlasUserHasha95uw0hfsr=ba8235943eb3cf526dee71acdc971c98772c3025aa70b1f8ce6f77b3162ccb01;
+          _ga_WCFQ65BCM4=GS1.1.1718735578.1.1.1718735937.0.0.0;
+          ph_phc_uKGENgKRF0dLaDNFCRe3QitdzHT5leW9jERK8J7eqIN_posthog=%7B%22distinct_id%22%3A%227ad1e47b-9245-4409-9f72-6a5527a0e677%22%2C%22%24sesid%22%3A%5B1718736129894%2C%2201902c9f-a6ff-7e97-b9ba-cbd6822b6e16%22%2C1718735578879%5D%2C%22%24epp%22%3Atrue%7D
+        newrelic: >-
+          eyJ2IjpbMCwxXSwiZCI6eyJ0eSI6IkJyb3dzZXIiLCJhYyI6IjM2OTExMzAiLCJhcCI6IjU5NDM4MTE4NSIsImlkIjoiMWZlZDEzMjBhNDc1OTc2MSIsInRyIjoiNTdlNmM1ZjBmNjE5YzJiNDg3ZjRkYmZkMDI4OGIxMDEiLCJ0aSI6MTcxODczNjEzMDI1NX19
+        origin: https://app.atlas.so
+        priority: u=1, i
+        referer: https://app.atlas.so/customers
+        sec-ch-ua: '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"'
+        sec-ch-ua-mobile: '?0'
+        sec-ch-ua-platform: '"macOS"'
+        sec-fetch-dest: empty
+        sec-fetch-mode: cors
+        sec-fetch-site: same-origin
+        traceparent: 00-57e6c5f0f619c2b487f4dbfd0288b101-1fed1320a4759761-01
+        tracestate: 3691130@nr=0-1-3691130-594381185-1fed1320a4759761----1718736130255
+        user-agent: >-
+          Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+          (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
+        x-atlas-session-id: 9c84d0d0-fd07-4cc7-a74c-ea4de382bf1a
+        x-newrelic-id: VwAOUFdQCBAFU1RUAAMPU1U=
+        x-requested-with: XMLHttpRequest
+variables:
+  authToken: XXXXXXX
