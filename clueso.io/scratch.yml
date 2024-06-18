@@ -47,5 +47,89 @@ tests:
       long.
     tasks:
       - action: actions.http-client-171872421010
+  web-clueso-test:
+    testbot: true
+    summary: >-
+      This test performs various actions using Selenium WebDriver to interact
+      with a web page. It includes clicking on different elements like Intro,
+      Background, Outro, Zooms, and Voiceover using CSS selectors. Additionally,
+      it verifies the visibility of an element with the CSS selector
+      ".aiRewriteButton".
+    tasks:
+      - action: >-
+          from selenium import webdriver
+
+          from selenium.webdriver.common.keys import Keys
+
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          from selenium.webdriver.chrome.options import Options
+
+          from selenium.webdriver.support import expected_conditions as EC
+
+          from selenium.webdriver.common.by import By
+
+          from selenium.webdriver.common.action_chains import ActionChains
+
+          import time
+
+
+          options = Options()
+
+          options.add_argument("--window-size=1132,924")
+
+          options.add_experimental_option("excludeSwitches",
+          ["enable-automation"])
+
+          driver = webdriver.Chrome(options=options)
+
+          actionChains = ActionChains(driver)
+
+          driver.get("https://web.clueso.io/guide/c17b7b06-f73f-4583-939c-0c55d4ee6472")
+
+          json_data = json.loads(r'''XXXXXXXX''')
+
+          for key, value in json_data.items():
+            if isinstance(value, dict):
+                value = json.dumps(value)
+            
+            js_code = f"window.localStorage.setItem('{key}', '{value}');"
+            driver.execute_script(js_code)
+            
+          driver.get("https://web.clueso.io/guide/c17b7b06-f73f-4583-939c-0c55d4ee6472")
+        testbot: false
+      - action: |-
+          element = WebDriverWait(driver, 10).until(
+              EC.element_to_be_clickable((By.CSS_SELECTOR, "#Intro svg"))
+          ).click()
+        testbot: false
+      - action: |-
+          element = WebDriverWait(driver, 10).until(
+              EC.element_to_be_clickable((By.CSS_SELECTOR, "#Background svg"))
+          ).click()
+        testbot: false
+      - action: |-
+          element = WebDriverWait(driver, 10).until(
+              EC.element_to_be_clickable((By.CSS_SELECTOR, "#Outro svg"))
+          ).click()
+        testbot: false
+      - action: |-
+          element = WebDriverWait(driver, 10).until(
+              EC.element_to_be_clickable((By.CSS_SELECTOR, "#Zooms svg"))
+          ).click()
+        testbot: false
+      - action: |-
+          element = WebDriverWait(driver, 10).until(
+              EC.element_to_be_clickable((By.CSS_SELECTOR, "#Voiceover svg"))
+          ).click()
+        testbot: false
+      - action: >-
+          element = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".aiRewriteButton"))
+          )
+
+          assert element.is_displayed(), "Expected element to be visible but it
+          was not"
+        testbot: false
 variables:
   authToken: XXXXXXX
