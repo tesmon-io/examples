@@ -1,0 +1,15 @@
+actions:
+  db-postgresql-1718753893:
+    type: DB::POSTGRESQL
+    props:
+      query: SELECT * FROM pg_catalog.pg_tables;
+    createdType: SHARED
+resources:
+  db-postgresql-1718754467:
+    type: DB::POSTGRESQL
+    props:
+      username: omnigres
+      password: omnigres
+      host: localhost
+      port: 5433
+      dbName: omnigres

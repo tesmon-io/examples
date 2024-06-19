@@ -1,0 +1,99 @@
+actions:
+  get-workspaces:
+    type: HTTP::CLIENT
+    props:
+      baseUrl: https://api.metaforms.ai
+      path: /www/workspace/
+      method: GET
+      headers:
+        accept: '*/*'
+        accept-encoding: gzip, deflate, br, zstd
+        accept-language: en-US,en;q=0.9
+        app-id: s9kk0o
+        authorization: Bearer ${{variables.authToken}}
+        client-id: dashboard
+        ngrok-skip-browser-warning: 'true'
+        origin: https://app.metaforms.ai
+        priority: u=1, i
+        referer: https://app.metaforms.ai/
+        sec-ch-ua: '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"'
+        sec-ch-ua-mobile: '?0'
+        sec-ch-ua-platform: '"macOS"'
+        sec-fetch-dest: empty
+        sec-fetch-mode: cors
+        sec-fetch-site: same-site
+        trial-org-id: ''
+        user-agent: >-
+          Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+          (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
+        user-email: nagaraj@tesmon.io
+  get-forms:
+    type: HTTP::CLIENT
+    props:
+      baseUrl: https://api.metaforms.ai
+      path: /www/form/?workspace_id=66727a1eaad277ced8acd800
+      method: GET
+      headers:
+        accept: '*/*'
+        accept-encoding: gzip, deflate, br, zstd
+        accept-language: en-US,en;q=0.9
+        app-id: s9kk0o
+        authorization: Bearer ${{variables.authToken}}
+        client-id: dashboard
+        ngrok-skip-browser-warning: 'true'
+        origin: https://app.metaforms.ai
+        priority: u=1, i
+        referer: https://app.metaforms.ai/
+        sec-ch-ua: '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"'
+        sec-ch-ua-mobile: '?0'
+        sec-ch-ua-platform: '"macOS"'
+        sec-fetch-dest: empty
+        sec-fetch-mode: cors
+        sec-fetch-site: same-site
+        trial-org-id: ''
+        user-agent: >-
+          Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+          (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
+        user-email: nagaraj@tesmon.io
+  get-users:
+    type: HTTP::CLIENT
+    props:
+      baseUrl: https://api.metaforms.ai
+      path: /www/org/users
+      method: GET
+      headers:
+        accept: '*/*'
+        accept-encoding: gzip, deflate, br, zstd
+        accept-language: en-US,en;q=0.9
+        app-id: s9kk0o
+        authorization: Bearer ${{variables.authToken}}
+        client-id: dashboard
+        ngrok-skip-browser-warning: 'true'
+        origin: https://app.metaforms.ai
+        priority: u=1, i
+        referer: https://app.metaforms.ai/
+        sec-ch-ua: '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"'
+        sec-ch-ua-mobile: '?0'
+        sec-ch-ua-platform: '"macOS"'
+        sec-fetch-dest: empty
+        sec-fetch-mode: cors
+        sec-fetch-site: same-site
+        trial-org-id: ''
+        user-agent: >-
+          Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+          (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
+        user-email: nagaraj@tesmon.io
+tests:
+  tests-1718780044:
+    testbot: true
+    summary: >-
+      This test performs various requests to the Metaforms API. It includes GET
+      requests to retrieve forms and workspaces, as well as user information.
+      The outcomes show successful responses with status codes 200, providing
+      data on forms, workspaces, and user details.
+    tasks:
+      - action: actions.get-forms
+      - action: actions.get-workspaces
+      - action: actions.get-users
+variables:
+  authToken: XXXXXXXX
